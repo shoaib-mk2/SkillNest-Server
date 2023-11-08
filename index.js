@@ -55,7 +55,7 @@ async function run() {
         })
 
         // update a data from the database
-        app.put('/job/:id', async (req, res) => {
+        app.put('/jobs/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const options = { upsert: true }
@@ -73,6 +73,14 @@ async function run() {
             }
 
             const result = await jobsCollection.updateOne(query, job, options)
+            res.send(result);
+        })
+
+        // delete a data from the database
+        app.delete('/jobs/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await jobsCollection.deleteOne(query);
             res.send(result);
         })
 
