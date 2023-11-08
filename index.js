@@ -27,6 +27,7 @@ async function run() {
         await client.connect();
 
         const jobsCollection = client.db('jobsDB').collection('jobs');
+        const bidsCollection = client.db('jobsDB').collection('bids');
 
         // post data to the database
         app.post('/jobs', async (req, res) => {
@@ -81,6 +82,16 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await jobsCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // bids related APIs start from here
+
+        // post data to the database
+        app.post('/bids', async (req, res) => {
+            const newBid = req.body;
+            console.log(newBid);
+            const result = await bidsCollection.insertOne(newBid);
             res.send(result);
         })
 
