@@ -95,6 +95,16 @@ async function run() {
             res.send(result);
         })
 
+        // get data filtered by email
+        app.get('/bids', async (req, res) => {
+            let query = {};
+            if (req.query?.bidderEmail) {
+                query = { bidderEmail: req.query.bidderEmail }
+            }
+            const result = await bidsCollection.find(query).toArray();
+            res.send(result);
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
