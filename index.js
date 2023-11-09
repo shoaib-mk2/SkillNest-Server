@@ -101,6 +101,9 @@ async function run() {
             if (req.query?.bidderEmail) {
                 query = { bidderEmail: req.query.bidderEmail }
             }
+            if (req.query?.jobOwnerEmail) {
+                query = { jobOwnerEmail: req.query.jobOwnerEmail }
+            }
             const result = await bidsCollection.find(query).toArray();
             res.send(result);
         })
