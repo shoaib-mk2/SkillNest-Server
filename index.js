@@ -104,10 +104,24 @@ async function run() {
             if (req.query?.jobOwnerEmail) {
                 query = { jobOwnerEmail: req.query.jobOwnerEmail }
             }
-            if (req.query?.id) {
-                query = { _id: new ObjectId(req.query.id) }
-            }
             const result = await bidsCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        // update a status for a bid from the database
+        app.patch('/bids/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const updatedBid = req.body;
+            console.log(updatedBid);
+
+            const updateDoc = {
+                $set: {
+                    status: updatedBid.status
+                }
+            }
+
+            const result = await bidsCollection.updateOne(query, updateDoc)
             res.send(result);
         })
 
